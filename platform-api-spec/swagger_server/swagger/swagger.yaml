@@ -96,32 +96,6 @@ paths:
         "409":
           description: "an existing item already exists"
       x-swagger-router-controller: "swagger_server.controllers.uc01_noise_observation_controller"
-  /peoplecounter/v1:
-    post:
-      tags:
-      - "UC05-PeopleCounter"
-      summary: "adds entry/exit count observations to UoP"
-      description: "Adds entry/exit/pass observations to the system"
-      operationId: "peoplecounter_v1_post"
-      consumes:
-      - "application/xml"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "EventNotificationAlert"
-        description: "Observations from Sensors"
-        required: false
-        schema:
-          $ref: "#/definitions/EventNotificationAlert"
-      responses:
-        "201":
-          description: "item created"
-        "400":
-          description: "invalid input, object invalid"
-        "409":
-          description: "an existing item already exists"
-      x-swagger-router-controller: "swagger_server.controllers.uc05_people_counter_controller"
   /viikkisolar/observation:
     get:
       tags:
@@ -206,6 +180,78 @@ paths:
         "409":
           description: "an existing item already exists"
       x-swagger-router-controller: "swagger_server.controllers.uc03_solar_inverter_controller"
+  /peoplecounter/v1:
+    post:
+      tags:
+      - "UC05-PeopleCounter"
+      summary: "adds entry/exit count observations to UoP"
+      description: "Adds entry/exit/pass observations to the system"
+      operationId: "peoplecounter_v1_post"
+      consumes:
+      - "application/xml"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "EventNotificationAlert"
+        description: "Observations from Sensors"
+        required: false
+        schema:
+          $ref: "#/definitions/EventNotificationAlert"
+      responses:
+        "201":
+          description: "item created"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "an existing item already exists"
+      x-swagger-router-controller: "swagger_server.controllers.uc05_people_counter_controller"
+  /wrm247/v1:
+    post:
+      tags:
+      - "UC06-Moving-Vehicle"
+      summary: "adds tractor movement observations to UoP"
+      operationId: "wrm247_v1_post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "API_KEY"
+        in: "header"
+        required: false
+        type: "string"
+      responses:
+        "201":
+          description: "item created"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "an existing item already exists"
+      x-swagger-router-controller: "swagger_server.controllers.uc06_moving_vehicle_controller"
+  /ocpp/v16/observation:
+    post:
+      tags:
+      - "UC07-Vehicle-Charging"
+      summary: "adds observations from bus charging to UoP"
+      operationId: "ocpp_v16_observation_post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "API_KEY"
+        in: "header"
+        required: false
+        type: "string"
+      responses:
+        "201":
+          description: "item created"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "an existing item already exists"
+      x-swagger-router-controller: "swagger_server.controllers.uc07_vehicle_charging_controller"
 definitions:
   NoiseSensors:
     type: "object"
