@@ -1,0 +1,504 @@
+---
+swagger: "2.0"
+info:
+  description: "The API endpoints of the Finest Platform"
+  version: "1.0.0"
+  title: "finest-platform-services"
+host: "virtserver.swaggerhub.com"
+basePath: "/FinEst-Twins/Finest-Platform-Services/1.0.0"
+schemes:
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /cesva/v1/observation:
+    get:
+      tags:
+      - "UC01-Noise-Observation"
+      operationId: "cesva_v1_observation_get"
+      parameters:
+      - name: "IDENTITY_KEY"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "thing"
+        in: "query"
+        description: "name of the device"
+        required: true
+        type: "string"
+      - name: "minresulttime"
+        in: "query"
+        description: "time at which observation data was received at the data platform"
+        required: false
+        type: "string"
+        pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+        format: "date"
+        x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+        x-modifiers: []
+      - name: "maxresulttime"
+        in: "query"
+        description: "time at which observation data was received at the data platform"
+        required: false
+        type: "string"
+        pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+        format: "date"
+        x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+        x-modifiers: []
+      - name: "minphenomtime"
+        in: "query"
+        description: "sampling time recorded and received with observation data"
+        required: false
+        type: "string"
+        pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+        format: "date"
+        x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+        x-modifiers: []
+      - name: "maxphenomtime"
+        in: "query"
+        description: "sampling time recorded and received with observation data"
+        required: false
+        type: "string"
+        pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+        format: "date"
+        x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+        x-modifiers: []
+      responses:
+        "200":
+          description: "successfully registered device"
+      x-swagger-router-controller: "swagger_server.controllers.uc01_noise_observation_controller"
+    put:
+      tags:
+      - "UC01-Noise-Observation"
+      summary: "adds noise observations to UoP"
+      operationId: "cesva_v1_observation_put"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "IDENTITY_KEY"
+        in: "header"
+        required: false
+        type: "string"
+      - in: "body"
+        name: "Sensors"
+        description: "Observations from Sensors"
+        required: false
+        schema:
+          $ref: "#/definitions/NoiseSensors"
+      responses:
+        "201":
+          description: "item created"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "an existing item already exists"
+      x-swagger-router-controller: "swagger_server.controllers.uc01_noise_observation_controller"
+  /viikkisolar/observation:
+    get:
+      tags:
+      - "UC03-SolarInverter"
+      operationId: "viikkisolar_observation_get"
+      parameters:
+      - name: "API_KEY"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "thing"
+        in: "query"
+        description: "name of the device"
+        required: true
+        type: "string"
+      - name: "minresulttime"
+        in: "query"
+        description: "time at which observation data was received at the data platform"
+        required: false
+        type: "string"
+        pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+        format: "date"
+        x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+        x-modifiers: []
+      - name: "maxresulttime"
+        in: "query"
+        description: "time at which observation data was received at the data platform"
+        required: false
+        type: "string"
+        pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+        format: "date"
+        x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+        x-modifiers: []
+      - name: "minphenomtime"
+        in: "query"
+        description: "sampling time recorded and received with observation data"
+        required: false
+        type: "string"
+        pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+        format: "date"
+        x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+        x-modifiers: []
+      - name: "maxphenomtime"
+        in: "query"
+        description: "sampling time recorded and received with observation data"
+        required: false
+        type: "string"
+        pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+        format: "date"
+        x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+        x-modifiers: []
+      responses:
+        "200":
+          description: "successfully registered device"
+      x-swagger-router-controller: "swagger_server.controllers.uc03_solar_inverter_controller"
+    post:
+      tags:
+      - "UC03-SolarInverter"
+      summary: "adds observations from solar inverter to UoP"
+      description: "adds observations from solar inverter to UoP"
+      operationId: "viikkisolar_observation_post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "API_KEY"
+        in: "header"
+        required: false
+        type: "string"
+      - in: "body"
+        name: "InverterReading"
+        description: "Observations from Sensors"
+        required: false
+        schema:
+          $ref: "#/definitions/InverterReading"
+      responses:
+        "201":
+          description: "item created"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "an existing item already exists"
+      x-swagger-router-controller: "swagger_server.controllers.uc03_solar_inverter_controller"
+  /peoplecounter/v1:
+    post:
+      tags:
+      - "UC05-PeopleCounter"
+      summary: "adds entry/exit count observations to UoP"
+      description: "Adds entry/exit/pass observations to the system"
+      operationId: "peoplecounter_v1_post"
+      consumes:
+      - "application/xml"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "EventNotificationAlert"
+        description: "Observations from Sensors"
+        required: false
+        schema:
+          $ref: "#/definitions/EventNotificationAlert"
+      responses:
+        "201":
+          description: "item created"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "an existing item already exists"
+      x-swagger-router-controller: "swagger_server.controllers.uc05_people_counter_controller"
+  /wrm247/v1:
+    post:
+      tags:
+      - "UC06-Moving-Vehicle"
+      summary: "adds tractor movement observations to UoP"
+      operationId: "wrm247_v1_post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "API_KEY"
+        in: "header"
+        required: false
+        type: "string"
+      responses:
+        "201":
+          description: "item created"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "an existing item already exists"
+      x-swagger-router-controller: "swagger_server.controllers.uc06_moving_vehicle_controller"
+  /ocpp/v16/observation:
+    post:
+      tags:
+      - "UC07-Vehicle-Charging"
+      summary: "adds observations from bus charging to UoP"
+      operationId: "ocpp_v16_observation_post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "API_KEY"
+        in: "header"
+        required: false
+        type: "string"
+      responses:
+        "201":
+          description: "item created"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "an existing item already exists"
+      x-swagger-router-controller: "swagger_server.controllers.uc07_vehicle_charging_controller"
+definitions:
+  NoiseSensors:
+    type: "object"
+    required:
+    - "sensors"
+    properties:
+      sensors:
+        type: "array"
+        items:
+          $ref: "#/definitions/NoiseSensor"
+    example:
+      sensors:
+      - observations:
+        - value: "10.0"
+          timestamp: "12/03/2020T12:26:58UTC"
+        - value: "10.0"
+          timestamp: "12/03/2020T12:26:58UTC"
+        sensor: "TA120-T246174-N"
+      - observations:
+        - value: "10.0"
+          timestamp: "12/03/2020T12:26:58UTC"
+        - value: "10.0"
+          timestamp: "12/03/2020T12:26:58UTC"
+        sensor: "TA120-T246174-N"
+  NoiseSensor:
+    required:
+    - "sensor"
+    properties:
+      sensor:
+        type: "string"
+        example: "TA120-T246174-N"
+      observations:
+        type: "array"
+        items:
+          $ref: "#/definitions/NoiseObservation"
+    example:
+      observations:
+      - value: "10.0"
+        timestamp: "12/03/2020T12:26:58UTC"
+      - value: "10.0"
+        timestamp: "12/03/2020T12:26:58UTC"
+      sensor: "TA120-T246174-N"
+  NoiseObservation:
+    required:
+    - "timestamp"
+    - "value"
+    properties:
+      value:
+        type: "string"
+        example: "10.0"
+      timestamp:
+        type: "string"
+        format: "date-time"
+        example: "12/03/2020T12:26:58UTC"
+    example:
+      value: "10.0"
+      timestamp: "12/03/2020T12:26:58UTC"
+  EventNotificationAlert:
+    type: "object"
+    required:
+    - "ipAddress"
+    properties:
+      ipAddress:
+        type: "string"
+        example: "0.2.1.0"
+      protocolType:
+        type: "string"
+        example: "http"
+      macAddress:
+        type: "string"
+        example: "xx:xx:xx:xx:xx:xx"
+      channelID:
+        type: "string"
+        example: "1"
+      dateTime:
+        type: "string"
+        format: "date-time"
+        example: "2020-04-19T17:35:00.000+0000"
+      activePostCount:
+        type: "string"
+        example: "1000"
+      eventType:
+        type: "string"
+        example: "5"
+      eventState:
+        type: "string"
+        example: "active"
+      eventDescription:
+        type: "string"
+      channelName:
+        type: "string"
+      peopleCounting:
+        $ref: "#/definitions/PeopleCounting"
+  PeopleCounting:
+    type: "object"
+    required:
+    - "enter"
+    - "exit"
+    - "pass"
+    - "statisticalMethods"
+    properties:
+      statisticalMethods:
+        type: "string"
+        example: "timeRange"
+      TimeRange:
+        $ref: "#/definitions/TimeRange"
+      enter:
+        type: "integer"
+        example: 1
+      exit:
+        type: "integer"
+        example: 1
+      pass:
+        type: "integer"
+        example: 1
+  TimeRange:
+    properties:
+      startTime:
+        type: "string"
+        format: "date-time"
+        example: "2020-04-19T17:35:00.000+0000"
+      endTime:
+        type: "string"
+        format: "date-time"
+        example: "2020-04-19T17:35:00.000+0000"
+  InverterReading:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      timestamp:
+        type: "string"
+        format: "date-time"
+        example: "2020-10-29T17:56:50.093538"
+      VoltageString1:
+        type: "number"
+      CurrentString1:
+        type: "number"
+      OutputString1:
+        type: "integer"
+      VoltageString2:
+        type: "number"
+      CurrentString2:
+        type: "number"
+      OutputString2:
+        type: "integer"
+      VoltageString3:
+        type: "number"
+      CurrentString3:
+        type: "number"
+      OutputString3:
+        type: "integer"
+      VoltagePhase1:
+        type: "number"
+      CurrentPhase1:
+        type: "number"
+      OutputPhase1:
+        type: "integer"
+      VoltagePhase2:
+        type: "number"
+      CurrentPhase2:
+        type: "number"
+      OutputPhase2:
+        type: "integer"
+      VoltagePhase3:
+        type: "number"
+      CurrentPhase3:
+        type: "number"
+      OutputPhase3:
+        type: "integer"
+      TotalEnergy:
+        type: "integer"
+      DailyEnery:
+        type: "integer"
+      Status:
+        type: "integer"
+      Fault:
+        type: "integer"
+    example:
+      OutputString2: 2
+      VoltagePhase2: 1.231513536777255612975068288506008684635162353515625
+      Status: 9
+      OutputString3: 3
+      VoltagePhase1: 2.027123023002321833274663731572218239307403564453125
+      OutputPhase1: 7
+      VoltageString3: 7.061401241503109105224211816675961017608642578125
+      VoltagePhase3: 6.8468526983526398765889098285697400569915771484375
+      VoltageString1: 0.80082819046101150206595775671303272247314453125
+      VoltageString2: 5.962133916683182377482808078639209270477294921875
+      CurrentPhase1: 4.1456080298839363962315474054776132106781005859375
+      Fault: 9
+      DailyEnery: 5
+      OutputPhase2: 1
+      OutputPhase3: 1
+      CurrentString3: 9.301444243932575517419536481611430644989013671875
+      CurrentString2: 5.63737665663332876420099637471139430999755859375
+      CurrentPhase2: 1.024645700144157789424070870154537260532379150390625
+      CurrentPhase3: 7.4577447736837658709418974467553198337554931640625
+      name: "name"
+      TotalEnergy: 4
+      CurrentString1: 6.02745618307040320615897144307382404804229736328125
+      timestamp: "2020-10-29T17:56:50.093538"
+      OutputString1: 1
+parameters:
+  thing_param:
+    name: "thing"
+    in: "query"
+    description: "name of the device"
+    required: true
+    type: "string"
+  minresulttime_param:
+    name: "minresulttime"
+    in: "query"
+    description: "time at which observation data was received at the data platform"
+    required: false
+    type: "string"
+    pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+    format: "date"
+    x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+    x-modifiers: []
+  maxresulttime_param:
+    name: "maxresulttime"
+    in: "query"
+    description: "time at which observation data was received at the data platform"
+    required: false
+    type: "string"
+    pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+    format: "date"
+    x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+    x-modifiers: []
+  minphenomtime_param:
+    name: "minphenomtime"
+    in: "query"
+    description: "sampling time recorded and received with observation data"
+    required: false
+    type: "string"
+    pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+    format: "date"
+    x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+    x-modifiers: []
+  maxphenomtime_param:
+    name: "maxphenomtime"
+    in: "query"
+    description: "sampling time recorded and received with observation data"
+    required: false
+    type: "string"
+    pattern: "YYYY-MM-DDTHH:MM:SS.ff"
+    format: "date"
+    x-regex: "YYYY-MM-DDTHH:MM:SS.ff"
+    x-modifiers: []
