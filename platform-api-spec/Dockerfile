@@ -15,4 +15,4 @@ EXPOSE 8080
 
 #CMD ["-m", "swagger_server"]
 
-CMD gunicorn --bind 0.0.0.0:8080 swagger_server.__main__:application
+CMD gunicorn --bind 0.0.0.0:8080 swagger_server.__main__:application --log-level=debug --timeout 90
