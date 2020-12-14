@@ -11,8 +11,6 @@ COPY . /usr/src/app
 
 EXPOSE 8080
 
-#ENTRYPOINT ["python3"]
+ENTRYPOINT ["python3"]
 
-#CMD ["-m", "swagger_server"]
-
-CMD gunicorn --bind 0.0.0.0:8080 swagger_server.__main__:application
+CMD ["-m", "swagger_server"]
